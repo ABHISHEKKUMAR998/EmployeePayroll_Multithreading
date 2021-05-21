@@ -39,9 +39,7 @@ public class EmployeePayrollDBService {
 	public List<EmployeePayrollData> readData() {
 		String sql = "SELECT * FROM employee_payroll;";
 		List<EmployeePayrollData> employeePayrollList = new ArrayList<>();
-		try (Connection connection = this.getConnection();) {
-			// A SQL statement is precompiled and stored in a PreparedStatement object. 
-			//This object can then be used to efficiently execute this statement multiple times. 
+		try (Connection connection = EmployeePayrollDBService.getConnection();) {  
 			PreparedStatement statement = connection.prepareStatement(sql);
 			ResultSet resultSet = statement.executeQuery(sql);
 			while (resultSet.next()) {
@@ -65,7 +63,7 @@ public class EmployeePayrollDBService {
 		String sql = String.format(
 				"INSERT INTO employee_payroll (name,gender,salary,start) VALUES ('%s','%s','%s','%s')", name, gender,
 				salary, Date.valueOf(startDate));
-		try (Connection connection = this.getConnection();) {
+		try (Connection connection = EmployeePayrollDBService.getConnection();) { 
 			PreparedStatement preparedStatement = connection.prepareStatement(sql);
 			//generated keys should be made available for retrieval
 			int rowAffected = preparedStatement.executeUpdate(sql, Statement.RETURN_GENERATED_KEYS);

@@ -32,6 +32,10 @@ public class EmployeePayrollData {
 				&& Double.doubleToLongBits(salary) == Double.doubleToLongBits(other.salary)
 				&& Objects.equals(startDate, other.startDate);
 	}
+	@Override
+	public int hashCode() {
+		return Objects.hash(emp_id, gender, name, salary, startDate);
+	}
 
 	@Override
 	public String toString() {

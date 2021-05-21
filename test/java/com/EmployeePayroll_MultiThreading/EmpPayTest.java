@@ -9,10 +9,10 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.EmployeePayroll_MultiThreading.EmployeePayrollService.IOService;
-
+import java.util.logging.Logger;
 
 public class EmpPayTest {
-
+	private static Logger log = Logger.getLogger(EmpPayTest.class.getName());
 	@Test
 	public void given6Employees_WhenAddedToDB_ShouldMatchEmployeeEntries() {
 		EmployeePayrollData[] arrayOfEmps = { new EmployeePayrollData(1, "Jeff Bezos", "M", 100000.0, LocalDate.now()),
@@ -28,7 +28,11 @@ public class EmpPayTest {
 		Instant start = Instant.now();
 		employeePayrollService.addEmployeeToPayroll(Arrays.asList(arrayOfEmps)); //adding employee to the payroll
 		Instant end = Instant.now();
-		System.out.println("Duration without thread : " + Duration.between(start, end));
-		Assert.assertEquals(6, employeePayrollService.countEntries(IOService.DB_IO));
+		log.info("Duration without thread : " + Duration.between(start, end));
+		Instant threadStart = Instant.now();
+		employeePayrollService.addEmployeeToPayrollWithThreads(Arrays.asList(arrayOfEmps));
+		Instant threadEnd = Instant.now();
+		log.info("Duartion with Thread : " + Duration.between(threadStart, threadEnd));
+		Assert.assertEquals(12, employeePayrollService.countEntries(IOService.DB_IO));
 	}
 }
